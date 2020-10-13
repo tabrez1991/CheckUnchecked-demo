@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  background: #db6ce8;
+  height: 100vh;
+}
+.card {
+  background: #fff;
+  width: 40%;
+  padding: 25px;
+  border-radius: 5px;
+  margin-left: 20px;
+  margin-top: 15%;
+}
+.App {
+  display: flex;
+  padding-left: 50px;
+}
+.selected {
+  display: flex;
+  justify-content: space-between;
+  background: rgb(230, 230, 230);
+  padding: 10px;
+}
+.novlaue {
+  color: rgb(182, 177, 177);
+  text-align: center;
+  margin-top: 50%;
+}
