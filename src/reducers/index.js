@@ -1,12 +1,17 @@
 import { ADD, DELETENAME } from "../constants/action-types";
 const initialState = {
-  data: []
+  data: [],
+  checkedList: {}
 };
 function rootReducer(state = initialState, action) {
   switch (action.type) {
     case ADD:
       let data_ = [...state.data];
-      let falg = 1;
+      let checkedList_ = { ...state.checkedList };
+      let falg = 0;
+      if (data_.length === 0) {
+        falg = 1;
+      }
       data_.forEach((element) => {
         if (element.name === action.payload.name) {
           element.data.push(action.payload.data);
@@ -20,12 +25,15 @@ function rootReducer(state = initialState, action) {
         d.push(action.payload.data);
         data_.push({ name: action.payload.name, data: d });
       }
+      checkedList_[action.payload.check] = action.payload.data;
       return {
         ...state,
-        data: data_
+        data: data_,
+        checkedList: checkedList_
       };
     case DELETENAME:
       let _data = [...state.data];
+      let _checkedList = { ...state.checkedList };
       let newdata = [];
       let newinnerdata = [];
       for (let i = 0; i < _data.length; i++) {
@@ -48,9 +56,15 @@ function rootReducer(state = initialState, action) {
         }
       }
       _data = newdata;
+      for (const key in _checkedList) {
+        if (_checkedList[key] === action.payload.data) {
+          delete _checkedList[key];
+        }
+      }
       return {
         ...state,
-        data: _data
+        data: _data,
+        checkedList: _checkedList
       };
     default:
       return state;

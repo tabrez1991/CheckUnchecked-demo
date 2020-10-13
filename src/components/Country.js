@@ -4,27 +4,33 @@ import data from "../data";
 import { addName, deleteName } from "../action";
 
 class Country extends Component {
-  handleChange = (e, name, data) => {
-    console.log(e.target.value);
+  handleChange = (e, name, data, check) => {
     if (e.target.checked) {
-      this.props.addName({ name: name, data: data });
+      this.props.addName({ name: name, data: data, check: check });
     } else {
       this.props.deleteName({ name: name, data: data });
     }
   };
   render() {
-    // console.log(this.props.datap);
     return (
       <div className="card">
         {data.map((item, i) => (
-          <div>
+          <div key={i}>
             <h3>{item.name}</h3>
             <div>
               {item.data.map((element, j) => (
-                <p>
+                <p key={i + j}>
+                  {console.log(this.props.checkedList)}
                   <input
                     type="checkbox"
-                    onChange={(e) => this.handleChange(e, item.name, element)}
+                    checked={
+                      this.props.checkedList["" + i + j] === element
+                        ? true
+                        : false
+                    }
+                    onChange={(e) =>
+                      this.handleChange(e, item.name, element, "" + i + j)
+                    }
                   />
                   <span style={{ marginLeft: "20px" }}>{element}</span>
                 </p>
@@ -38,7 +44,8 @@ class Country extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    datap: state.data
+    datap: state.data,
+    checkedList: state.checkedList
   };
 };
 
